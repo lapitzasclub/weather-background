@@ -1,0 +1,27 @@
+/* src/components/Temperature.scss */
+.temperature-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 7;
+  pointer-events: none;
+}
+.temperature {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.temperature.low {
+  background: rgba(100,149,237,0.2); /* CornflowerBlue */
+}
+.temperature.very-low {
+  background: rgba(75,0,130,0.3);   /* Indigo */
+}
+.temperature.high {
+  background: rgba(255,165,0,0.2);   /* Orange */
+}
+.temperature.very-high {
+  background: rgba(255,69,0,0.3);    /* OrangeRed */
+}
