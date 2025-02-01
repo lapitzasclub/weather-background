@@ -14,15 +14,24 @@
 
 .wind-leaf {
   position: absolute;
-  width: 40px; // Ajusta el tamaño según tus necesidades
+  width: 40px; /* Base, se ajusta con scale en la animación */
   height: auto;
-  /* Usamos currentColor, así puedes definir el color en CSS o heredarlo */
-  color: $white-soft; 
+  color: $white-soft;
   filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
+}
+
+.wind-leaf-inner {
+  animation: verticalDrift 4s ease-in-out infinite;
+}
+
+@keyframes verticalDrift {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(10px); }
+  100% { transform: translateY(0); }
 }
 
 .wind-dust {
   position: absolute;
-  background: rgba(150, 150, 150, 0.5); // Color para el polvo; ajusta si es necesario
+  background: rgba(150, 150, 150, 0.5);
   border-radius: 50%;
 }

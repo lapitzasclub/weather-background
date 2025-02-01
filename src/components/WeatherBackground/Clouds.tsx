@@ -21,13 +21,13 @@ const Clouds: React.FC<CloudsProps> = ({ cloudIntensity, cloudColor = '#fff' }) 
       count = 8;
       break;
     case "heavy":
-      count = 12;
+      count = 20; // Aumentado para "heavy"
       break;
     default:
       count = 0;
   }
-  
-  // Si no se activan nubes, no renderizamos nada.
+
+  // Si no se activa ninguna nubosidad, no renderizamos nada.
   if (count === 0) return null;
 
   const cloudsArray = Array.from({ length: count }, (_, i) => i);
@@ -35,15 +35,23 @@ const Clouds: React.FC<CloudsProps> = ({ cloudIntensity, cloudColor = '#fff' }) 
   return (
     <div id="background-wrap" className="clouds-container">
       {cloudsArray.map((i) => {
-        // Asignamos una posición vertical aleatoria (por ejemplo, entre 0% y 30%)
-        const randomTop = Math.random() * 30;
+        // Posición vertical aleatoria: ahora entre 0% y 100% para cubrir todo el vertical
+        const randomTop = Math.random() * 100;
+        // Opacidad aleatoria entre 0.4 y 0.9 para variar la transparencia
+        const randomOpacity = 0.4 + Math.random() * 0.5;
         return (
           <motion.div
             key={i}
             className={`cloud-wrapper x${(i % 5) + 1}`}
             style={{ top: `${randomTop}%` }}
           >
-            <div className="cloud" style={{ '--cloud-color': cloudColor } as React.CSSProperties} />
+            <div
+              className="cloud"
+              style={{
+                '--cloud-color': cloudColor,
+                opacity: randomOpacity,
+              } as React.CSSProperties}
+            />
           </motion.div>
         );
       })}
