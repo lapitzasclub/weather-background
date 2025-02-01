@@ -1,25 +1,25 @@
 // src/App.tsx
 import React, { useState } from 'react';
-import WeatherBackground, { WeatherBackgroundProps } from './components/WeatherBackground';
+import WeatherBackground, { WeatherBackgroundProps } from './components/WeatherBackground/WeatherBackground';
 import './App.css';
 
-const controls: { name: keyof WeatherBackgroundProps; label: string }[] = [
+const binaryControls: { name: keyof WeatherBackgroundProps; label: string }[] = [
   { name: 'day', label: 'Día' },
   { name: 'night', label: 'Noche' },
   { name: 'sunny', label: 'Soleado' },
-  { name: 'slightlyCloudy', label: 'Ligeramente nublado' },
-  { name: 'cloudy', label: 'Nublado' },
-  { name: 'veryCloudy', label: 'Muy nublado' },
-  { name: 'lightRain', label: 'Lluvia ligera' },
-  { name: 'rain', label: 'Lluvia' },
-  { name: 'heavyRain', label: 'Lluvia severa' },
-  { name: 'storm', label: 'Tormenta eléctrica' },
   { name: 'snow', label: 'Nieve' },
   { name: 'fog', label: 'Niebla' },
-  { name: 'veryLowTemp', label: 'Temperaturas muy bajas' },
-  { name: 'lowTemp', label: 'Temperaturas bajas' },
-  { name: 'highTemp', label: 'Temperaturas altas' },
-  { name: 'veryHighTemp', label: 'Temperaturas muy altas' },
+];
+
+const intensityControls: {
+  name: keyof WeatherBackgroundProps;
+  label: string;
+  options: string[];
+}[] = [
+  { name: 'cloudIntensity', label: 'Nubosidad', options: ['none', 'light', 'medium', 'heavy'] },
+  { name: 'rainIntensity', label: 'Lluvia', options: ['none', 'light', 'moderate', 'heavy', 'storm'] },
+  { name: 'windIntensity', label: 'Viento', options: ['none', 'light', 'normal', 'strong'] },
+  { name: 'temperature', label: 'Temperatura', options: ['none', 'veryLow', 'low', 'high', 'veryHigh'] },
 ];
 
 const App: React.FC = () => {
@@ -27,24 +27,22 @@ const App: React.FC = () => {
     day: true,
     night: false,
     sunny: true,
-    slightlyCloudy: false,
-    cloudy: false,
-    veryCloudy: false,
-    lightRain: false,
-    rain: false,
-    heavyRain: false,
-    storm: false,
     snow: false,
     fog: false,
-    veryLowTemp: false,
-    lowTemp: false,
-    highTemp: false,
-    veryHighTemp: false,
+    cloudIntensity: 'none',
+    rainIntensity: 'none',
+    windIntensity: 'none',
+    temperature: 'none',
   });
 
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setWeather((prev) => ({ ...prev, [name]: checked }));
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setWeather((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -66,13 +64,13 @@ const App: React.FC = () => {
       >
         <h2>Controles</h2>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {controls.map((control) => (
+          {binaryControls.map((control) => (
             <li key={control.name}>
               <label>
                 <input
                   type="checkbox"
                   name={control.name}
-                  checked={weather[control.name] || false}
+                  checked={Boolean(weather[control.name])}
                   onChange={handleCheckboxChange}
                 />
                 {` ${control.label}`}
@@ -80,6 +78,20 @@ const App: React.FC = () => {
             </li>
           ))}
         </ul>
+        {intensityControls.map((control) => (
+          <div key={control.name} style={{ marginTop: '10px' }}>
+            <label>
+              {control.label}:
+              <select name={control.name} value={weather[control.name] as string} onChange={handleSelectChange}>
+                {control.options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        ))}
       </div>
     </div>
   );

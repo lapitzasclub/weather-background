@@ -1,4 +1,4 @@
-// src/components/Sun.tsx
+// src/components/WeatherBackground/Sun.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import './Sun.scss';

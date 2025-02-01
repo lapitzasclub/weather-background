@@ -1,0 +1,16 @@
+// src/components/WeatherBackground/WeatherBackground/Lightning.scss
+
+@import "./_colors.scss";
+
+canvas,
+.lightning-svg {
+  background-color: transparent;
+  display: block;
+}
+
+.lightning-flash {
+  // Usamos $white-soft con opacidad 0.3 para mantener la paleta elegante
+  background: rgba($white-soft, 0.3);
+  width: 100%;
+  height: 100%;
+}

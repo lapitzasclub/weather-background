@@ -1,4 +1,4 @@
-// src/components/Moon.tsx
+// src/components/WeatherBackground/Moon.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import './Moon.scss';

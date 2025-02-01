@@ -1,4 +1,6 @@
-/* src/components/Snow.scss */
+// src/components/WeatherBackground/Snow.scss
+@import "./_colors.scss";
+
 .snow-container {
   position: absolute;
   top: 0;
@@ -11,7 +13,8 @@
 
 .snow-flake {
   position: absolute;
-  background: #fff;
+  background: $white-soft; 
   border-radius: 50%;
   opacity: 0.9;
+  box-shadow: 0 0 5px rgba(236, 239, 241, 0.6);
 }

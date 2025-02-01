@@ -1,4 +1,6 @@
-/* src/components/Sun.scss */
+// src/components/WeatherBackground/WeatherBackground/Sun.scss
+@import "./_colors.scss";
+
 .sun-container {
   position: absolute;
   top: 10%;
@@ -7,14 +9,18 @@
   height: 100px;
   z-index: 3;
 }
+
 .sun {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: #FFEB3B;
+  // Desaturamos el color original para un tono más sobrio y elegante
+  background: desaturate(#FFEB3B, 30%);
   border-radius: 50%;
-  box-shadow: 0 0 30px 10px rgba(255,235,59,0.5);
+  // Box-shadow sutil para dar un efecto de resplandor
+  box-shadow: 0 0 30px 10px rgba(255, 235, 59, 0.3);
 }
+
 .sunburst {
   position: absolute;
   top: 50%;

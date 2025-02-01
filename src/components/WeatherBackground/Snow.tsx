@@ -1,4 +1,4 @@
-// src/components/Snow.tsx
+// src/components/WeatherBackground/Snow.tsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Snow.scss';

@@ -1,4 +1,4 @@
-// src/components/Stars.tsx
+// src/components/WeatherBackground/Stars.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import './Stars.scss';

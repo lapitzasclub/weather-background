@@ -1,4 +1,4 @@
-// src/components/Background.tsx
+// src/components/WeatherBackground/Background.tsx
 import React from 'react';
 import './Background.scss';
 

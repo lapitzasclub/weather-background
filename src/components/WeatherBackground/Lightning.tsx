@@ -1,4 +1,4 @@
-// src/components/Lightning.tsx
+// src/components/WeatherBackground/Lightning.tsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Lightning.scss';

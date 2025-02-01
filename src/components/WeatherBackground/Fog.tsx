@@ -1,4 +1,4 @@
-// src/components/Fog.tsx
+// src/components/WeatherBackground/Fog.tsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Fog.scss';

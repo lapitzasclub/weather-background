@@ -1,0 +1,20 @@
+// src/components/WeatherBackground/WeatherBackground/Background.scss
+
+@import "./_colors.scss";
+
+.background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.background.day {
+  // Gradiente usando tonos de la paleta primaria suave
+  background: linear-gradient(to bottom, $primary-light, $primary);
+}
+
+.background.night {
+  // Se oscurece el tono primario oscuro para conseguir un efecto nocturno elegante
+  background: linear-gradient(to bottom, darken($primary-dark, 10%), darken($primary-dark, 30%));
+}

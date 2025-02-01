@@ -1,15 +1,14 @@
-// src/components/Rain.tsx
+// src/components/WeatherBackground/Rain.tsx
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lightning from './Lightning';
 import './Rain.scss';
 
 export interface RainProps {
-  lightRain?: boolean;
-  rain?: boolean;
-  heavyRain?: boolean;
-  storm?: boolean;
-  day?: boolean; // para ajustar el color según el fondo
+  /** Intensidad de la lluvia: "none", "light", "moderate", "heavy" o "storm" */
+  rainIntensity: "none" | "light" | "moderate" | "heavy" | "storm";
+  /** Indica si es de día, para ajustar el color de las gotas */
+  day?: boolean;
 }
 
 const minThickness = 2;
@@ -17,37 +16,25 @@ const maxThickness = 5;
 
 const SafeAnimatePresence = AnimatePresence as React.FC<{ children?: React.ReactNode }>;
 
-const Rain: React.FC<RainProps> = ({
-  lightRain = false,
-  rain = false,
-  heavyRain = false,
-  storm = false,
-  day = true,
-}) => {
-  let rainIntensity: 'none' | 'light' | 'normal' | 'heavy' | 'storm' = 'none';
-  if (storm) rainIntensity = 'storm';
-  else if (heavyRain) rainIntensity = 'heavy';
-  else if (rain) rainIntensity = 'normal';
-  else if (lightRain) rainIntensity = 'light';
-
+const Rain: React.FC<RainProps> = ({ rainIntensity, day = true }) => {
   let rainCount = 0, rainDuration = 0, rainRepeatDelay = 0;
   switch (rainIntensity) {
-    case 'light':
+    case "light":
       rainCount = 15;
       rainDuration = 2.5;
       rainRepeatDelay = 0.5;
       break;
-    case 'normal':
+    case "moderate":
       rainCount = 25;
       rainDuration = 2;
       rainRepeatDelay = 0.3;
       break;
-    case 'heavy':
+    case "heavy":
       rainCount = 40;
       rainDuration = 1.5;
       rainRepeatDelay = 0.2;
       break;
-    case 'storm':
+    case "storm":
       rainCount = 40;
       rainDuration = 1.5;
       rainRepeatDelay = 0.2;
@@ -55,13 +42,15 @@ const Rain: React.FC<RainProps> = ({
     default:
       rainCount = 0;
   }
-  const rainColor = day ? '#0066cc' : '#66b2ff';
+  
+  // Para día, se usa un color claro ($white-soft), en noche un azul suave
+  const rainColor = day ? 'rgba(236,239,241,0.9)' : '#66b2ff';
 
   return (
     <SafeAnimatePresence>
-      {rainIntensity !== 'none' ? (
+      {rainIntensity !== "none" ? (
         <motion.div
-          className="rain-container"
+          className={`rain-container ${day ? 'day' : ''}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -72,10 +61,7 @@ const Rain: React.FC<RainProps> = ({
               Math.random() * (maxThickness - minThickness) + minThickness;
             const dropDuration =
               rainDuration *
-                (1 -
-                  0.3 *
-                    ((dropThickness - minThickness) /
-                      (maxThickness - minThickness))) +
+                (1 - 0.3 * ((dropThickness - minThickness) / (maxThickness - minThickness))) +
               Math.random() * 0.2;
             return (
               <motion.div
@@ -98,7 +84,7 @@ const Rain: React.FC<RainProps> = ({
               />
             );
           })}
-          {rainIntensity === 'storm' && <Lightning />}
+          {rainIntensity === "storm" && <Lightning />}
         </motion.div>
       ) : null}
     </SafeAnimatePresence>
