@@ -1,5 +1,4 @@
-// src/components/WeatherBackground/WeatherBackground/Rain.scss
-
+// src/components/WeatherBackground/Rain.scss
 @import "./_colors.scss";
 
 .rain-container {
@@ -10,11 +9,18 @@
   height: 100%;
   pointer-events: none;
   z-index: 5;
-  
-  /* Si se aplica la clase 'day', usamos un color para gotas que contraste con el degradado diurno */
+
+  // Para modo día: el degradado usa 180deg, con la parte superior transparente y la inferior opaca
   &.day {
     .rain-drop {
-      background: rgba(236, 239, 241, 0.9); // $white-soft en formato RGBA
+      background: linear-gradient(180deg, transparent, rgba(236,239,241,0.9));
+    }
+  }
+  
+  // Para modo noche: se utiliza otro color (puedes ajustar el valor)
+  &:not(.day) {
+    .rain-drop {
+      background: linear-gradient(180deg, transparent, rgba(102,178,255,0.9));
     }
   }
 }
@@ -23,6 +29,5 @@
   position: absolute;
   height: 15px;
   opacity: 0.9;
-  /* Por defecto (modo noche) usamos un tono basado en $primary-dark */
-  background: rgba($primary-dark, 0.8);
+  border-radius: 2px;
 }

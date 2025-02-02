@@ -43,8 +43,8 @@ const Rain: React.FC<RainProps> = ({ rainIntensity, day = true }) => {
       rainCount = 0;
   }
   
-  // Para día, se usa un color claro ($white-soft), en noche un azul suave
-  const rainColor = day ? 'rgba(236,239,241,0.9)' : '#66b2ff';
+  // Para el modo día se usa un color claro (basado en $white-soft) y para la noche un azul suave.
+  const rainColor = day ? 'rgba(236,239,241,0.9)' : 'rgba(102,178,255,0.9)';
 
   return (
     <SafeAnimatePresence>
@@ -71,7 +71,8 @@ const Rain: React.FC<RainProps> = ({ rainIntensity, day = true }) => {
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 10}vh`,
                   width: `${dropThickness}px`,
-                  background: rainColor,
+                  // Degradado: la parte superior es transparente y la inferior el color definido en rainColor
+                  background: `linear-gradient(to bottom, transparent, ${rainColor})`
                 }}
                 initial={{ y: '-10vh', opacity: 0 }}
                 animate={{ y: '110vh', opacity: 1 }}
