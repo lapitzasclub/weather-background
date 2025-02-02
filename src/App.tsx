@@ -3,16 +3,15 @@ import React, { useState } from 'react';
 import WeatherBackground, { WeatherBackgroundProps } from './components/WeatherBackground/WeatherBackground';
 import './App.css';
 
-const binaryControls: { name: keyof WeatherBackgroundProps; label: string }[] = [
-  { name: 'day', label: 'Día' },
-  { name: 'night', label: 'Noche' },
-  { name: 'sunny', label: 'Soleado' },
+// Controles booleanos para efectos como nieve y niebla
+const binaryControls: { name: keyof Pick<WeatherBackgroundProps, 'snow' | 'fog'>; label: string }[] = [
   { name: 'snow', label: 'Nieve' },
   { name: 'fog', label: 'Niebla' },
 ];
 
+// Controles de intensidad para nubosidad, lluvia, viento y temperatura
 const intensityControls: {
-  name: keyof WeatherBackgroundProps;
+  name: keyof Pick<WeatherBackgroundProps, 'cloudIntensity' | 'rainIntensity' | 'windIntensity' | 'temperature'>;
   label: string;
   options: string[];
 }[] = [
@@ -22,24 +21,46 @@ const intensityControls: {
   { name: 'temperature', label: 'Temperatura', options: ['none', 'veryLow', 'low', 'high', 'veryHigh'] },
 ];
 
+// Controles para el estado diurno y efectos solares y lunares
+const stateControls: {
+  name: keyof Pick<WeatherBackgroundProps, 'timeOfDay' | 'sunPhase' | 'moonPhase'>;
+  label: string;
+  options: string[];
+}[] = [
+  { name: 'timeOfDay', label: 'Hora del día', options: ['dawn', 'day', 'dusk', 'night'] },
+  { name: 'sunPhase', label: 'Estado del Sol', options: ['sunny', 'overcast'] },
+  { name: 'moonPhase', label: 'Fase de la Luna', options: ['full', 'new', 'waxing-crescent', 'first-quarter', 'waxing-gibbous', 'waning-gibbous', 'last-quarter', 'waning-crescent'] },
+];
+
 const App: React.FC = () => {
   const [weather, setWeather] = useState<WeatherBackgroundProps>({
-    day: true,
-    night: false,
-    sunny: true,
+    timeOfDay: 'day',
+    sunPhase: 'sunny',
+    moonPhase: 'full',
     snow: false,
     fog: false,
     cloudIntensity: 'none',
     rainIntensity: 'none',
     windIntensity: 'none',
     temperature: 'none',
+    veryLowTemp: false,
+    lowTemp: false,
+    highTemp: false,
+    veryHighTemp: false,
   });
 
+  // Estado para controlar el colapso del panel
+  const [isPanelOpen, setIsPanelOpen] = useState(true);
+
+  const togglePanel = () => setIsPanelOpen((prev) => !prev);
+
+  // Manejo de cambios en los checkbox (efectos booleanos)
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
     setWeather((prev) => ({ ...prev, [name]: checked }));
   };
 
+  // Manejo de cambios en los selectores (para intensidades y estados)
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setWeather((prev) => ({ ...prev, [name]: value }));
@@ -52,46 +73,78 @@ const App: React.FC = () => {
         className="weather-controls"
         style={{
           position: 'absolute',
-          top: '10px',
+          bottom: '10px',
           left: '10px',
-          background: 'rgba(255,255,255,0.9)',
+          background: 'rgba(255,255,255,0.6)',
           padding: '10px',
           borderRadius: '5px',
           zIndex: 100,
-          maxHeight: '90vh',
+          maxHeight: '80vh',
           overflowY: 'auto',
         }}
       >
-        <h2>Controles</h2>
-        <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-          {binaryControls.map((control) => (
-            <li key={control.name}>
-              <label>
-                <input
-                  type="checkbox"
-                  name={control.name}
-                  checked={Boolean(weather[control.name])}
-                  onChange={handleCheckboxChange}
-                />
-                {` ${control.label}`}
-              </label>
-            </li>
-          ))}
-        </ul>
-        {intensityControls.map((control) => (
-          <div key={control.name} style={{ marginTop: '10px' }}>
-            <label>
-              {control.label}:
-              <select name={control.name} value={weather[control.name] as string} onChange={handleSelectChange}>
-                {control.options.map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-        ))}
+        <button onClick={togglePanel} style={{ marginBottom: '10px' }}>
+          {isPanelOpen ? 'Ocultar controles' : 'Mostrar controles'}
+        </button>
+        {isPanelOpen && (
+          <>
+            <h2>Controles</h2>
+            {/* Controles booleanos */}
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+              {binaryControls.map((control) => (
+                <li key={control.name}>
+                  <label>
+                    <input
+                      type="checkbox"
+                      name={control.name}
+                      checked={Boolean(weather[control.name])}
+                      onChange={handleCheckboxChange}
+                    />
+                    {` ${control.label}`}
+                  </label>
+                </li>
+              ))}
+            </ul>
+            {/* Controles de intensidad */}
+            {intensityControls.map((control) => (
+              <div key={control.name} style={{ marginTop: '10px' }}>
+                <label>
+                  {control.label}:
+                  <select
+                    name={control.name}
+                    value={weather[control.name] as string}
+                    onChange={handleSelectChange}
+                  >
+                    {control.options.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            ))}
+            {/* Controles de estado diurno y efectos solares y lunares */}
+            {stateControls.map((control) => (
+              <div key={control.name} style={{ marginTop: '10px' }}>
+                <label>
+                  {control.label}:
+                  <select
+                    name={control.name}
+                    value={weather[control.name] as string}
+                    onChange={handleSelectChange}
+                  >
+                    {control.options.map((opt) => (
+                      <option key={opt} value={opt}>
+                        {opt}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

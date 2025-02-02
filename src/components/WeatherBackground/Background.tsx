@@ -3,15 +3,11 @@ import React from 'react';
 import './Background.scss';
 
 export interface BackgroundProps {
-  day?: boolean;
-  night?: boolean;
+  timeOfDay: "dawn" | "day" | "dusk" | "night";
 }
 
-const Background: React.FC<BackgroundProps> = ({ day = true, night = false }) => (
-  <>
-    {day && <div className="background day" />}
-    {night && <div className="background night" />}
-  </>
-);
+const Background: React.FC<BackgroundProps> = ({ timeOfDay }) => {
+  return <div className={`background ${timeOfDay}`} />;
+};
 
 export default Background;

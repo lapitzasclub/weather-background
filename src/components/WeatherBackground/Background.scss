@@ -1,5 +1,4 @@
-// src/components/WeatherBackground/WeatherBackground/Background.scss
-
+@use "sass:color";
 @import "./_colors.scss";
 
 .background {
@@ -9,12 +8,22 @@
   z-index: 1;
 }
 
+// Amanecer: tonos cálidos suaves para iniciar el día.
+.background.dawn {
+  background: linear-gradient(to bottom, #FFCC80, #90A4AE);
+}
+
+// Día: degradado basado en la paleta primaria.
 .background.day {
-  // Gradiente usando tonos de la paleta primaria suave
   background: linear-gradient(to bottom, $primary-light, $primary);
 }
 
+// Atardecer: mezcla de tonos cálidos oscuros y fríos, simulando el ocaso.
+.background.dusk {
+  background: linear-gradient(to bottom, #FF8A65, color.adjust($primary-dark, $lightness: -10%));
+}
+
+// Noche: degradado oscuro, con toques de azul muy profundo o negro.
 .background.night {
-  // Se oscurece el tono primario oscuro para conseguir un efecto nocturno elegante
-  background: linear-gradient(to bottom, darken($primary-dark, 10%), darken($primary-dark, 30%));
+  background: linear-gradient(to bottom, #263238, #000);
 }

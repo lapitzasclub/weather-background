@@ -4,15 +4,19 @@ import { motion } from 'framer-motion';
 import './Sun.scss';
 
 export interface SunProps {
-  sunny?: boolean;
+  /** Fase del sol: "sunny" para sol brillante, "overcast" para luz atenuada */
+  phase?: "sunny" | "overcast";
 }
 
-const Sun: React.FC<SunProps> = ({ sunny = false }) => {
-  if (!sunny) return null;
+const Sun: React.FC<SunProps> = ({ phase = "sunny" }) => {
+  // Si el sol está "overcast", aplicamos un filtro de menor brillo.
+  const sunStyle = phase === "sunny" ? {} : { filter: "brightness(0.7)" };
+
   return (
     <div className="sun-container">
       <motion.div
         className="sun"
+        style={sunStyle}
         initial={{ scale: 1 }}
         animate={{ scale: [1, 1.05, 1] }}
         transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}

@@ -1,20 +1,20 @@
-// src/components/WeatherBackground/Wind.scss
-
 @import "./_colors.scss";
 
 .wind-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 4;
+  z-index: 90;
+  overflow: hidden;
 }
 
+/* Hojas de viento */
 .wind-leaf {
   position: absolute;
-  width: 40px; /* Base, se ajusta con scale en la animación */
+  width: 40px; // Tamaño base; se ajusta con scale
   height: auto;
   color: $white-soft;
   filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
@@ -26,12 +26,26 @@
 
 @keyframes verticalDrift {
   0%   { transform: translateY(0); }
-  50%  { transform: translateY(10px); }
+  50%  { transform: translateY(15px); }
   100% { transform: translateY(0); }
 }
 
+/* Polvo: por defecto se asigna un color, pero luego se sobreescribe según el modo */
 .wind-dust {
   position: absolute;
-  background: rgba(150, 150, 150, 0.5);
   border-radius: 50%;
+  /* Color base (por si no se aplica el contexto) */
+  background: rgba($primary-dark, 0.6);
+  box-shadow: 0 0 5px rgba($white-soft, 0.4);
+}
+
+/* Estilos específicos según el modo (usados en el wrapper interno del propio Wind) */
+.wind-wrapper.day .wind-dust {
+  background: rgba($primary-dark, 0.5); // Un tono oscuro para el día
+  box-shadow: 0 0 8px rgba($primary-dark, 0.6);
+}
+
+.wind-wrapper.night .wind-dust {
+  background: rgba($white-soft, 0.3); // Un tono claro para la noche
+  box-shadow: 0 0 10px rgba($white-soft, 0.5);
 }
